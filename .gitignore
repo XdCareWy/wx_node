@@ -1,6 +1,7 @@
 .idea
-node_module
+node_modules
 build
 logs
 *.log
 npm-debug.log
+package-lock.json
