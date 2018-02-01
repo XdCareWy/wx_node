@@ -22,7 +22,23 @@ const assign = async (ctx, next) => {
 	}
 }
 
+const info = async (ctx, next) => {
+	const data = require(__dirname + "/../model/data.json");
+	buildJson(ctx, data);
+}
+
+const buildJson = (ctx, data) => {
+	ctx.response.type = 'application/json';
+	ctx.response.body = {
+		code: 200,
+		msg: 'ok',
+		data: data
+	}
+}
+
+
 module.exports = {
 	'GET /': index,
-	'POST /assign': assign
+	'POST /assign': assign,
+	'GET /info': info
 };
