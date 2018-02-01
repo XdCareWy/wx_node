@@ -7,5 +7,5 @@ const controller = require('./src/util/controller');
 app.use(bodyParser());
 app.use(controller());
 
-app.listen(80);
+app.listen(3000);
 console.log("server is listenning port 3000!")
