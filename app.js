@@ -15,7 +15,11 @@ const SSLPORT = 3001;
 app.use(bodyParser());
 app.use(controller());
 
-https.createServer({key: key, cert: cert}, app.callback()).listen(SSLPORT);
-app.listen(PORT);
+try {
+	https.createServer({key: key, cert: cert}, app.callback()).listen(SSLPORT);
+	app.listen(PORT);
+}catch(e) {
+	console.log(e)
+}
 
 
