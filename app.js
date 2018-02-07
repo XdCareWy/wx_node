@@ -18,6 +18,7 @@ app.use(controller());
 try {
 	https.createServer({key: key, cert: cert}, app.callback()).listen(SSLPORT);
 	app.listen(PORT);
+	console.log("zzzzzzz")
 }catch(e) {
 	console.log(e)
 }
