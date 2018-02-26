@@ -22,5 +22,8 @@
     "koa-bodyparser": "^4.2.0",
     "koa-bunyan-logger": "^2.0.0",
     "koa-router": "^7.4.0"
+  },
+  "dependencies": {
+    "qiniu": "^7.1.2"
   }
 }

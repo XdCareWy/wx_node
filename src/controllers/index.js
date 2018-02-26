@@ -22,6 +22,24 @@ const assign = async (ctx, next) => {
 	}
 }
 
+const uploadHtml = async (ctx, next) => {
+	ctx.body = `
+		<form action="http://localhost:3000/upload" enctype="multipart/form-data" method="post">
+			<input type="file" name="file" />
+			<input type="submit" value="submit" />
+		</form>
+	`;
+}
+
+const upload = async (ctx, next) => {
+	console.log(ctx.request.body.files.file)
+	console.log(next)
+
+	ctx.body = {
+		data: ctx
+	}
+}
+
 const info = async (ctx, next) => {
 	const data = require(__dirname + "/../model/data.json");
 	buildJson(ctx, data);
@@ -40,5 +58,7 @@ const buildJson = (ctx, data) => {
 module.exports = {
 	'GET /': index,
 	'POST /assign': assign,
-	'GET /info': info
+	'GET /info': info,
+	'GET /uploadHtml': uploadHtml,
+	'POST /upload': upload
 };
