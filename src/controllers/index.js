@@ -45,6 +45,11 @@ const info = async (ctx, next) => {
 	buildJson(ctx, data);
 }
 
+const detail = async (ctx, next) => {
+	const data = require(__dirname + "/../model/data.json");
+	console.log(ctx)
+}
+
 const buildJson = (ctx, data) => {
 	ctx.response.type = 'application/json';
 	ctx.response.body = {
