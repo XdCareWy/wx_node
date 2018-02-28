@@ -48,6 +48,7 @@ const info = async (ctx, next) => {
 const detail = async (ctx, next) => {
 	const data = require(__dirname + "/../model/data.json");
 	console.log(ctx)
+	console.log(ctx.query)
 }
 
 const buildJson = (ctx, data) => {
@@ -59,11 +60,26 @@ const buildJson = (ctx, data) => {
 	}
 }
 
+const insert = async (ctx, next) => {
+
+}
+
+const find = async (ctx, next) => {
+	const mongoClient = require('mongodb').MongoClient;
+	const url = 'mongodb://39.106.152.149:27017/qq';
+	mongoClient.connect(url, function(err, db) {
+		console.log("Connected successfully to server");
+		const collection = db.collection('documents');
+		console.log(collection);
+	})
+}
 
 module.exports = {
 	'GET /': index,
 	'POST /assign': assign,
 	'GET /info': info,
 	'GET /uploadHtml': uploadHtml,
-	'POST /upload': upload
+	'POST /upload': upload,
+	'GET /detail': detail,
+	'GET /find': find
 };
