@@ -5,7 +5,6 @@ const fs = require('fs');
 const bodyParser = require('koa-bodyparser');
 const koaLogger = require('koa-logger');
 const convert = require('koa-convert');
-const mongoose = require('mongoose');
 
 const app = new Koa();
 const controller = require('./src/util/controller');
@@ -16,38 +15,27 @@ const cert = fs.readFileSync('./cerificate/cert.pem')
 const PORT = 3000;
 const SSLPORT = 3001;
 
+// 1. import 'mongodse connect'
+require('./src/util/mongodbConnection');
+// 2. import 'Poetry' Model
+// const Poetry = require('./src/model/poetry');
+// // 3. defined 'Poetry' Entity
+// const poetry = new Poetry({
+// 	url: '1.jpg',
+// 	topic: 'zxd',
+// 	description: 'qazewdsfsdfsfsadfxc'
+// });
+// // 4. CRUL
+// poetry.save(function(err, doc) {
+// 	if(err) {
+// 		console.log('save error: ' + err);
+// 	}
+// 	console.log('save success: \n' + doc);
+// });
+
 app.use(convert(koaLogger()));
 app.use(bodyParser());
 app.use(controller());
-
-mongoose.connect('mongodb://localhost/test');
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'))
-db.once('open', function() {
-	console.log('success')
-	const kittySchema = mongoose.Schema({name: String});
-	kittySchema.methods.speak = function() {
-		const greeting = this.name? "Meow name is" + this.name : "I don`t have a name";
-		console.log(greeting)
-	}
-	const Kitten = mongoose.model('Kitten', kittySchema);
-	const silence = new Kitten({name: 'Silence'});
-	console.log(silence.name)
-	silence.save(function(err, silence) {
-		if(err) {
-			return console.error(err);
-		}
-		silence.speak();
-	});
-
-	Kitten.find(function(err, kittens) {
-		if(err) {
-			return console.error(err);
-		}
-		console.log(kittens)
-	});
-
-})
 
 try {
 	https.createServer({key: key, cert: cert}, app.callback()).listen(SSLPORT);

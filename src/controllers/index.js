@@ -60,8 +60,20 @@ const buildJson = (ctx, data) => {
 	}
 }
 
-const insert = async (ctx, next) => {
-
+const add = async (ctx, next) => {
+	const {url, topic, description} = ctx.request.body;
+	const Poetry = require('../model/poetry');
+	const poetry = new Poetry({
+		url: url,
+		topic: topic,
+		description: description
+	});
+	const doc = await poetry.save()
+	if(!doc.errors) {
+		ctx.response.body = {code: 1, message: "add ok!"}
+	}else {
+		ctx.response.body = {code: 0, message: "add fail!"}
+	}
 }
 
 const find = async (ctx, next) => {
@@ -81,5 +93,6 @@ module.exports = {
 	'GET /uploadHtml': uploadHtml,
 	'POST /upload': upload,
 	'GET /detail': detail,
-	'GET /find': find
+	'GET /find': find,
+	'POST /add': add
 };
