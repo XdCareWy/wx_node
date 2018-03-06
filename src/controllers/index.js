@@ -23,20 +23,21 @@ const assign = async (ctx, next) => {
 }
 
 const uploadHtml = async (ctx, next) => {
+	await next();
 	ctx.body = `
-		<form action="http://localhost:3000/upload" enctype="multipart/form-data" method="post">
-			<input type="file" name="file" />
+		<form action="/upload" enctype="multipart/form-data" method="post">
+			<input type="file" name="files"/>
 			<input type="submit" value="submit" />
 		</form>
 	`;
 }
 
 const upload = async (ctx, next) => {
-	console.log(ctx.request.body.files.file)
-	console.log(next)
-
+	// if ('POST' != ctx.request.method) return await next();
+  	// const file = ctx.request.body.files.file;
+	console.log(ctx.request.body)
 	ctx.body = {
-		data: ctx
+		data: ctx.request.body
 	}
 }
 
