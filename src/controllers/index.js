@@ -77,13 +77,33 @@ const add = async (ctx, next) => {
 }
 
 const find = async (ctx, next) => {
-	const mongoClient = require('mongodb').MongoClient;
-	const url = 'mongodb://39.106.152.149:27017/qq';
-	mongoClient.connect(url, function(err, db) {
-		console.log("Connected successfully to server");
-		const collection = db.collection('documents');
-		console.log(collection);
-	})
+	const Poetry = require('../model/poetry');
+	const doc = await Poetry.find();
+	if(!doc.errors) {
+		ctx.response.body = {code: 1, message: "find ok!", data: doc}
+	}else {
+		ctx.response.body = {code: 0, message: "find fail!"}
+	}
+}
+
+const update = async (ctx, next) => {
+	const Poetry = require('../model/poetry');
+	const doc = await Poetry.where({_id: '5a9674ff4115f030dc8d2c58'}).update({$set: {topic: 'update topic'}})
+	if(!doc.errors) {
+		ctx.response.body = {code: 1, message: "update ok!", data: doc}
+	}else {
+		ctx.response.body = {code: 0, message: "update fail!"}
+	}
+}
+
+const remove = async (ctx, next) => {
+	const Poetry = require('../model/poetry');
+	const doc = await Poetry.where({_id: "5a9661df88792c25570049b9"}).remove();
+	if(!doc.errors) {
+		ctx.response.body = {code: 1, message: "delete ok!", data: doc}
+	}else {
+		ctx.response.body = {code: 0, message: "delete fail!"}
+	}
 }
 
 module.exports = {
@@ -94,5 +114,7 @@ module.exports = {
 	'POST /upload': upload,
 	'GET /detail': detail,
 	'GET /find': find,
-	'POST /add': add
+	'POST /add': add,
+	'GET /update': update,
+	'GET /remove': remove
 };
