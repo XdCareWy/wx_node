@@ -2,6 +2,7 @@ const os = require('os');
 const path = require('path');
 const fs = require('fs');
 const qiniu = require('../util/qiniu');
+const logger = require('../util/logger').logger;
 
 const index = async (ctx, next) => {
 	ctx.body = `
@@ -29,6 +30,7 @@ const assign = async (ctx, next) => {
 
 const uploadHtml = async (ctx, next) => {
 	await next();
+	logger.info("asdasdasdas")
 	ctx.body = `
 		<form action="/poetry/add" enctype="multipart/form-data" method="post">
 			<input type="file" name="file" />

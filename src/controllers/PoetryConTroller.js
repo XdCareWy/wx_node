@@ -4,6 +4,7 @@ const fs = require('fs');
 const qiniu = require('../util/qiniu');
 const tool = require('../util/tool');
 const Poetry = require('../model/poetry');
+const logger = require('../util/logger');
 
 const find = async (ctx, next) => {
 	const doc = await Poetry.find();
@@ -45,9 +46,11 @@ const add = async (ctx, next) => {
 
  	const {statusCode, data} = res[1];
  	if(statusCode) {
- 		console.log(data.key + "上传成功！");
+ 		console.log(logger)
+ 		console.info(data.key + "上传成功！");
+ 		logger.info(data.key + "上传成功！");
  	}else {
- 		console.errors(fileName + "上传失败！");
+ 		logger.errors(fileName + "上传失败！");
  	}
 
 	const poetry = new Poetry({
@@ -65,7 +68,6 @@ const add = async (ctx, next) => {
 
 
 module.exports = {
-	'POST /upload': upload,
 	'GET /find': find,
 	'POST /poetry/add': add,
 	'GET /update': update,
