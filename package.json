@@ -18,14 +18,15 @@
   },
   "homepage": "https://github.com/XdCareWy/wx_node#readme",
   "devDependencies": {
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
     "koa": "^2.4.1",
     "koa-body": "^2.5.0",
     "koa-convert": "^1.2.0",
     "koa-logger": "^3.1.0",
     "koa-router": "^7.4.0",
-    "log4js": "^2.5.3"
-  },
-  "dependencies": {
+    "log4js": "^2.5.3",
     "mongodb": "^3.0.3",
     "mongoose": "^5.0.7",
     "qiniu": "^7.1.2"

@@ -6,10 +6,10 @@ const Poetry = require('../model/poetry');
 const logger = require('../util/logger').logger;
 
 const find = async (ctx, next) => {
-	const {id} = ctx.query;
-	const doc = id ? await Poetry.find({_id: id}) : await Poetry.find();
+	const {id, page=1} = ctx.query;
+	const doc = id ? await Poetry.find({_id: id}) : await Poetry.find().limit(page*6);
 	if(!doc.errors) {
-		ctx.response.body = {code: 1, message: "find ok!", data: doc}
+		ctx.response.body = doc;
 	}else {
 		console.log(doc)
 		ctx.response.body = {code: 0, message: "find fail!"}
@@ -26,15 +26,17 @@ const update = async (ctx, next) => {
 }
 
 const remove = async (ctx, next) => {
-	// const doc = await Poetry.where({_id: "5a9661df88792c25570049b9"}).remove();
+	const {id} = ctx.request.body;
+	console.log(id)
+	const doc = await Poetry.where({_id: id}).remove();
 	// 删除七牛云上图片
-	const res = await qiniu.deleteQiniu('1520567530942.png');
-	console.log(res)
-	// if(!doc.errors) {
-	// 	ctx.response.body = {code: 1, message: "delete ok!", data: doc}
-	// }else {
-	// 	ctx.response.body = {code: 0, message: "delete fail!"}
-	// }
+	// const res = await qiniu.deleteQiniu('1520567530942.png');
+	// console.log(res)
+	if(!doc.errors) {
+		ctx.response.body = doc;
+	}else {
+		ctx.response.body = doc.errors;
+	}
 }
 
 const add = async (ctx, next) => {
@@ -58,9 +60,9 @@ const upload = async (ctx, next) => {
 	// 创建stream流
 	const reader = fs.createReadStream(path);
 	// 使用时间戳重新命名
-	const fileName = new Date().getTime() + buildInPath.extname(name);
+	// const fileName = new Date().getTime() + buildInPath.extname(name);
 	// 上传
-	const res = await qiniu.uploadQiniu(reader, fileName);
+	const res = await qiniu.uploadQiniu(reader, name);
 
 	const {statusCode, data} = res[1];
 	if(statusCode) {
@@ -78,6 +80,6 @@ module.exports = {
 	'GET /find': find,
 	'POST /poetry/add': add,
 	'GET /update': update,
-	'GET /remove': remove,
+	'POST /remove': remove,
 	'POST /upload': upload
 };
