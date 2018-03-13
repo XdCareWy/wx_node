@@ -60,6 +60,7 @@ const add = async (ctx, next) => {
 const upload = async (ctx, next) => {
 	const {files, fields} = ctx.request.body;
 	const {path, name} = files.file;
+	console.log(path)
 	// 创建stream流
 	const reader = fs.createReadStream(path);
 	// 使用时间戳重新命名
