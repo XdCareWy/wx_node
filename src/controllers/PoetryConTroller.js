@@ -66,7 +66,7 @@ const upload = async (ctx, next) => {
 	// const fileName = new Date().getTime() + buildInPath.extname(name);
 	// 上传
 	const res = await qiniu.uploadQiniu(reader, name);
-
+	console.log(res)
 	const {statusCode, data} = res[1];
 	if(statusCode) {
 		console.info(data.key + "上传成功！");
