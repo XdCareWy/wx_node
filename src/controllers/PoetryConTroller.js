@@ -9,9 +9,10 @@ const find = async (ctx, next) => {
 	const {id, page=1} = ctx.query;
 	const doc = id ? await Poetry.find({_id: id}) : await Poetry.find().limit(page*6);
 	if(!doc.errors) {
+		logger.log(JSON.stringify(doc));
 		ctx.response.body = doc;
 	}else {
-		console.log(doc)
+		logger.errors(JSON.stringify(doc));
 		ctx.response.body = {code: 0, message: "find fail!"}
 	}
 }
@@ -48,8 +49,10 @@ const add = async (ctx, next) => {
 	});
 	const doc = await poetry.save();
 	if(!doc.errors) {
+		logger.log("add ok");
 		ctx.response.body = {code: 1, message: "add ok!", data: doc}
 	}else {
+		logger.errors(JSON.stringify(doc.errors));
 		ctx.response.body = {code: 0, message: "add fail!", data: doc.errors}
 	}
 }
