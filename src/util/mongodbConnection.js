@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
+const logger = require('../util/logger').logger;
 
 mongoose.connect('mongodb://localhost/test');
 
 const db = mongoose.connection;
 
-db.on('error', error => console.log('mongodb connect fail: ' + error));
-db.once('open', () => console.log('mongodb connect success!'));
+db.on('error', error => logger.log('mongodb connect fail: ' + error));
+db.once('open', () => logger.error('mongodb connect success!'));

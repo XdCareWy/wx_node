@@ -12,7 +12,7 @@ const find = async (ctx, next) => {
 		logger.log(JSON.stringify(doc));
 		ctx.response.body = doc;
 	}else {
-		logger.errors(JSON.stringify(doc));
+		logger.error(JSON.stringify(doc));
 		ctx.response.body = {code: 0, message: "find fail!"}
 	}
 }
@@ -52,7 +52,7 @@ const add = async (ctx, next) => {
 		logger.log("add ok");
 		ctx.response.body = {code: 1, message: "add ok!", data: doc}
 	}else {
-		logger.errors(JSON.stringify(doc.errors));
+		logger.error(JSON.stringify(doc.errors));
 		ctx.response.body = {code: 0, message: "add fail!", data: doc.errors}
 	}
 }
@@ -60,7 +60,6 @@ const add = async (ctx, next) => {
 const upload = async (ctx, next) => {
 	const {files, fields} = ctx.request.body;
 	const {path, name} = files.file;
-	console.log(path)
 	// 创建stream流
 	const reader = fs.createReadStream(path);
 	// 使用时间戳重新命名
@@ -74,7 +73,7 @@ const upload = async (ctx, next) => {
 		logger.info(data.key + "上传成功！");
 		ctx.response.body = data.key;
 	}else {
-		logger.errors(fileName + "上传失败！");
+		logger.error(fileName + "上传失败！");
 		ctx.response.body = '上传失败';
 	}
 }
