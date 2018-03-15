@@ -5,5 +5,5 @@ mongoose.connect('mongodb://localhost/test');
 
 const db = mongoose.connection;
 
-db.on('error', error => logger.log('mongodb connect fail: ' + error));
-db.once('open', () => logger.error('mongodb connect success!'));
+db.on('error', error => logger.error('mongodb connect fail: ' + error));
+db.once('open', () => logger.info('mongodb connect success!'));

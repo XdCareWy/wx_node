@@ -30,12 +30,9 @@ const assign = async (ctx, next) => {
 
 const uploadHtml = async (ctx, next) => {
 	await next();
-	logger.info("asdasdasdas")
 	ctx.body = `
-		<form action="/poetry/add" enctype="multipart/form-data" method="post">
+		<form action="/upload" enctype="multipart/form-data" method="post">
 			<input type="file" name="file" />
-			<input type="text" name="topic" />
-			<input type="text" name="description" />
 			<input type="submit" value="submit" />
 		</form>
 	`;
