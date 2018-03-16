@@ -12,7 +12,6 @@ const options = {
 	scope: 'music'
 };
 const putPolicy = new qiniu.rs.PutPolicy(options);
-const uploadToken = putPolicy.uploadToken(mac);
 
 const config = new qiniu.conf.Config();
 config.zone = qiniu.zone.Zone_z1;
@@ -26,7 +25,8 @@ var putExtra = new qiniu.form_up.PutExtra();
  * @param  {function} 回调函数
  */
 function uploadQiniu(readableStream, key, callback) {
-	formUploader.putStream(uploadToken, key, readableStream, putExtra, callback);
+    const uploadToken = putPolicy.uploadToken(mac);
+    formUploader.putStream(uploadToken, key, readableStream, putExtra, callback);
 }
 
 
