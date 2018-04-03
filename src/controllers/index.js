@@ -40,7 +40,7 @@ const uploadHtml = async (ctx, next) => {
 
 
 const print = async (ctx, next) => {
-	console.log(ctx.request.body)
+	logger.info(ctx.request.body)
 	ctx.body = ctx;
 }
 
