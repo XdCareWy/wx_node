@@ -39,7 +39,10 @@ const uploadHtml = async (ctx, next) => {
 }
 
 
-
+const print = async (ctx, next) => {
+	console.log(ctx.request.body)
+	ctx.body = ctx;
+}
 
 const info = async (ctx, next) => {
 	const data = require(__dirname + "/../model/data.json");
@@ -68,4 +71,5 @@ module.exports = {
 	'POST /assign': assign,
 	'GET /info': info,
 	'GET /uploadHtml': uploadHtml,
+	'POST /print': print
 };
