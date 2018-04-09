@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+    Array.prototype.everyOne = function(fun, thisArg) {
+        'use strict';
+        var T;
+        if (this === void 0 || this === null)
+            throw new TypeError();
+
+        var t = Object(this);
+        var len = t.length >>> 0;
+        if (typeof fun !== 'function')
+            throw new TypeError();
+
+        // var thisArg = arguments.length >= 2 ? arguments[1] : void 0;
+        if (thisArg) {
+            T = thisArg;
+        }
+        for (var i = 0; i < len; i++) {
+            if (i in t && !fun.call(thisArg, t[i], i, t))
+                return false;
+        }
+
+        return true;
+    };
+    Array.prototype.someOne = function(fun, thisArg) {
+        if (this == void 0 || this == null) {
+            throw new TypeError("this is null or undefined");
+        }
+        if (Object.prototype.toString.call(fun) != "[object Function]") {
+            throw new TypeError(func + "is not a function");
+        }
+        // var thisArg = arguments.length >= 2 ? arguments[1] : void 0;
+        var T;
+        if (thisArg) {
+            T = thisArg;
+        }
+        var O = Object(this);
+        var len = O.length >>> 0;
+        var k = 0;
+        while (k < len) {
+            if (k in O && fun.call(T, O[k], k, O)) {
+                return true;
+            }
+            k++;
+        }
+        return false;
+    }
+    </script>
+    <script>
+    var a = [1, 2, 3, 4, 5];
+    var b = a.everyOne(function(item, i, arr) {
+        if (item > 3) {
+            return true;
+        }
+        return false;
+    }, window)
+    var c = a.someOne(function(item, i, arr) {
+        if (item > 3) {
+            return true;
+        }
+        return false;
+    })
+    console.log(b)
+    console.log(c)
+    </script>
+    <script>
+    function isMobileBrowser() {
+        var sUserAgent = navigator.userAgent.toLowerCase();
+        var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
+        var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
+        var bIsMidp = sUserAgent.match(/midp/i) == "midp";
+        var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
+        var bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
+        var bIsAndroid = sUserAgent.match(/android/i) == "android";
+        var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
+        var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
+        if (!(bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    </script>
+    <script>
+    	function deepCopy(args) {
+    		let result;
+    		switch(getType(args)){
+    			case 'Null':
+    				result = null;
+    				break;
+    			case 'Undefined':
+    				result = undefined;
+    				break;
+    			case 'Number':
+    			case 'String':
+    			case 'Boolean':
+    				result = args.valueOf();
+    				break;
+    			case 'Date':
+    				result = new Date(args.valueOf());
+    				break;
+    			case 'RegExp':
+    				break;
+    			case 'Array':
+    				result = [];
+    				for(let i = 0; i < args.length; i++) {
+    					result[i] = deepCopy(args[i]);
+    				}
+    				break;
+    			case 'Object':
+    				result = {};
+    				for(let o in args) {
+    					result[o] = deepCopy(args[o]);
+    				}
+    				break;
+    			case 'Function':
+    				break;
+    			case 'Error':
+    				break;
+    		}
+    		return result;
+    	}
+    	function getType(args) {
+    		let o = Object.prototype.toString.call(args);
+    		return o.slice(8, -1);
+    	}
+    </script>
+</body>
+
+</html>
