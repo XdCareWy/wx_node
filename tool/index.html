@@ -109,7 +109,8 @@
     				break;
     			case 'RegExp':
                     let pattern = args.valueOf;
-                    let flags += pattern.global?"g":"";
+                    let flags = "";
+                    flags += pattern.global?"g":"";
                     flags += pattern.ignoreCase?"i":"";
                     flags += pattern.multiline?"m":"";
                     result = new RegExp(pattern.source, flags);
