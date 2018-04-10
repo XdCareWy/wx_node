@@ -108,6 +108,11 @@
     				result = new Date(args.valueOf());
     				break;
     			case 'RegExp':
+                    let pattern = args.valueOf;
+                    let flags += pattern.global?"g":"";
+                    flags += pattern.ignoreCase?"i":"";
+                    flags += pattern.multiline?"m":"";
+                    result = new RegExp(pattern.source, flags);
     				break;
     			case 'Array':
     				result = [];
