@@ -8,6 +8,57 @@
 
 <body>
     <script type="text/javascript">
+    function curring1(fn, args = []) {
+        var length = fn.length;
+        return function() {
+            var _args = args.slice(0);
+            for (var i = 0; i < arguments.length; i++) {
+                _args.push(arguments[i]);
+            }
+            if (_args.length < length) {
+                return curring1.call(this, fn, _args);
+            }
+            return fn.apply(this, _args);
+        }
+    }
+
+    var sub_curry = function(fn) {
+        var args = [].slice.call(arguments, 1);
+        return function() {
+            var newArgs = args.concat([].slice.call(arguments));
+            return fn.apply(this, newArgs);
+        }
+    }
+
+    function curry(fn, length) {
+
+        length = length || fn.length;
+
+        var slice = Array.prototype.slice;
+
+        return function() {
+            if (arguments.length < length) {
+                var combined = [fn].concat(slice.call(arguments));
+                return curry(sub_curry.apply(this, combined), length - arguments.length);
+            } else {
+                return fn.apply(this, arguments);
+            }
+        };
+    }
+
+
+    var curring = function() {
+        var _args = [];
+        return function() {
+            if (arguments.length === 0) {
+                return _args.reduce(function(acc, cur) {
+                    return acc + cur;
+                })
+            }
+            [].push.apply(_args, [].slice.call(arguments));
+            return arguments.callee;
+        }
+    }
     Array.prototype.everyOne = function(fun, thisArg) {
         'use strict';
         var T;
@@ -90,54 +141,55 @@
     }
     </script>
     <script>
-    	function deepCopy(args) {
-    		let result;
-    		switch(getType(args)){
-    			case 'Null':
-    				result = null;
-    				break;
-    			case 'Undefined':
-    				result = undefined;
-    				break;
-    			case 'Number':
-    			case 'String':
-    			case 'Boolean':
-    				result = args.valueOf();
-    				break;
-    			case 'Date':
-    				result = new Date(args.valueOf());
-    				break;
-    			case 'RegExp':
-                    let pattern = args.valueOf();
-                    let flags = "";
-                    flags += pattern.global?"g":"";
-                    flags += pattern.ignoreCase?"i":"";
-                    flags += pattern.multiline?"m":"";
-                    result = new RegExp(pattern.source, flags);
-    				break;
-    			case 'Array':
-    				result = [];
-    				for(let i = 0; i < args.length; i++) {
-    					result[i] = deepCopy(args[i]);
-    				}
-    				break;
-    			case 'Object':
-    				result = {};
-    				for(let o in args) {
-    					result[o] = deepCopy(args[o]);
-    				}
-    				break;
-    			case 'Function':
-    				break;
-    			case 'Error':
-    				break;
-    		}
-    		return result;
-    	}
-    	function getType(args) {
-    		let o = Object.prototype.toString.call(args);
-    		return o.slice(8, -1);
-    	}
+    function deepCopy(args) {
+        let result;
+        switch (getType(args)) {
+            case 'Null':
+                result = null;
+                break;
+            case 'Undefined':
+                result = undefined;
+                break;
+            case 'Number':
+            case 'String':
+            case 'Boolean':
+                result = args.valueOf();
+                break;
+            case 'Date':
+                result = new Date(args.valueOf());
+                break;
+            case 'RegExp':
+                let pattern = args.valueOf();
+                let flags = "";
+                flags += pattern.global ? "g" : "";
+                flags += pattern.ignoreCase ? "i" : "";
+                flags += pattern.multiline ? "m" : "";
+                result = new RegExp(pattern.source, flags);
+                break;
+            case 'Array':
+                result = [];
+                for (let i = 0; i < args.length; i++) {
+                    result[i] = deepCopy(args[i]);
+                }
+                break;
+            case 'Object':
+                result = {};
+                for (let o in args) {
+                    result[o] = deepCopy(args[o]);
+                }
+                break;
+            case 'Function':
+                break;
+            case 'Error':
+                break;
+        }
+        return result;
+    }
+
+    function getType(args) {
+        let o = Object.prototype.toString.call(args);
+        return o.slice(8, -1);
+    }
     </script>
 </body>
 
