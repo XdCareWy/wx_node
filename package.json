@@ -4,9 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "commitmsg": "commitlint -E GIT_PARAMS",
+    "precommit": "lint-staged",
     "start": "node app.js",
     "dev": "node --inspect-brk=9229 app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "lint-staged": {
+    "src/*.js": [
+      "eslint --fix",
+      "prettier --write",
+      "git add"
+    ]
   },
   "repository": {
     "type": "git",
